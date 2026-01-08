@@ -26,7 +26,7 @@
   qt6,
   git,
   wrapQtAppsHook,
-  makeWrapper,
+  makeBinaryWrapper,
   stdenv,
   fetchFromGitHub,
   runCommandLocal,
@@ -157,7 +157,7 @@ let
 
     nativeBuildInputs = [
       wrapQtAppsHook
-      makeWrapper
+      makeBinaryWrapper
     ];
 
     runtimeDependencies = [
@@ -181,7 +181,8 @@ let
     hardeningDisable = [ "format" ];
 
     postFixup = ''
-      wrapProgram $out/bin/seiscomp \
+      cd $out/bin
+      wrapProgram ./seiscomp \
         --suffix PATH : ${lib.makeBinPath final.runtimeDependencies}
     '';
   });
